@@ -75,7 +75,7 @@ elseif (isset($_POST["id"]) && isset($_POST["title"]) && isset($_POST["descripti
     $sql = "UPDATE newone SET title = '$title', description = '$description', detailtext= '$detailtext' WHERE id = '$userid'";
     if($result = $conn->query($sql)){
 
-        header("Location: index.php");
+        header("Location: table.php");
     } else{
         echo "Ошибка: " . $conn->error;
     }

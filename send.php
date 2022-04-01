@@ -25,7 +25,7 @@ if(isset($_POST["id"]))
         $chatid = "-1001764501259"; //ИД чата telegrm
         $mess =  $title;
         $tbot = file_get_contents("https://api.telegram.org/bot".$token."/sendMessage?chat_id=".$chatid."&text=".urlencode($mess));
-        header("Location: index.php");
+        header("Location: table.php");
     }
     else{
         echo "Ошибка: " . $conn->error;

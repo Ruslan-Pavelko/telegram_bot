@@ -9,7 +9,7 @@ if(isset($_POST["id"]))
     $sql = "DELETE FROM newone WHERE id = '$userid'";
     if($conn->query($sql)){
 
-        header("Location: index.php");
+        header("Location: table.php");
     }
     else{
         echo "Ошибка: " . $conn->error;

@@ -1,99 +1,124 @@
 <?php
-
-/*
-$conn = new mysqli("localhost", "root", "mysql");
-if($conn->connect_error){
-    die("Ошибкка: " . $conn->connect_error);
+if(!empty($_POST['paswd'])){
+    $pass = "Taras"; // здесь мы храним пароль, с которым должен совпасть введенный пользователем(этого никто не увидит, т.к. это РНР, а сервер отправит пользователю чистый html, беспокоится не стоит
+    if($_POST['paswd']==$pass){ // Если пользователь ввел верно, значит для него создается сессия и он  перенаправляется на вторую страницу
+        session_start();
+        $_SESSION['access']=true;
+        header("Location: table.php");
+    }
+    else {
+        header("Location: error.php") ;// если нет то на страницу с ошибкой
+    }
 }
-// Создаем базу данных testdb2
-$sql = "CREATE DATABASE infodb";
-if($conn->query($sql)){
-    echo "База данных успешно создана";
-} else{
-    echo "Ошибка: " . $conn->error;
+else
+{
+    ?><form method='post' class='decor'>
+    <div class='form-left-decoration'></div>
+    <div class='form-right-decoration'></div>
+    <div class='circle'></div>
+    <div class='form-inner'>
+        <label style="text-align: center; font-size: 22px" >
+            Введіть пароль
+        </label>
+        <input type="text" name="paswd">
+        <input type="submit">
+    </div>
+    </form>
+    <?php
 }
-$conn->close();
-
-$conn = new mysqli("localhost", "root", "mysql", "infodb");
-if($conn->connect_error){
-    die("Ошибка: " . $conn->connect_error);
-}
-$sql = "CREATE TABLE infotable (id INTEGER AUTO_INCREMENT PRIMARY KEY, title VARCHAR(60), description TEXT, detailtext TEXT);";
-if($conn->query($sql)){
-    echo "Таблица новостей успешно создана";
-} else{
-    echo "Ошибка: " . $conn->error;
-}
-$conn->close();
-*/
-
-
-
-
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Taras news</title>
-    <meta charset="utf-8" />
-</head>
-<body>
-<h2 align="center">Список новостей</h2>
-<style type="text/css">
-    .table-wrap{
-        overflow-x:auto;
+<style>
+    * {
+        box-sizing: border-box;
     }
-    table.table-1 {
-        border-collapse: collapse;
-        border-spacing: 0;
-        width: 98%;
+    body {
+        background: #f69a73;
     }
-    table.table-1 tr {
-        background-color: #f8f8f8;
+    .decor {
+        position: relative;
+        max-width: 600px;
+        margin: 50px auto 0;
+        background: white;
+        border-radius: 30px;
     }
-    table.table-1 th, table.table-1 td {
-        text-align: left;
-        padding: 8px;
-        border: 1px solid #ddd;
+    .form-left-decoration, .form-right-decoration {
+        content: "";
+        position: absolute;
+        width: 50px;
+        height: 20px;
+        background: #f69a73;
+        border-radius: 20px;
     }
-
-    table.table-1 th{
-        font-weight: bold;
+    .form-left-decoration {
+        bottom: 60px;
+        left: -30px;
+    }
+    .form-right-decoration {
+        top: 60px;
+        right: -30px;
+    }
+    .form-left-decoration:before, .form-left-decoration:after, .form-right-decoration:before, .form-right-decoration:after {
+        content: "";
+        position: absolute;
+        width: 50px;
+        height: 20px;
+        border-radius: 30px;
+        background: white;
+    }
+    .form-left-decoration:before {
+        top: -20px;
+    }
+    .form-left-decoration:after {
+        top: 20px;
+        left: 10px;
+    }
+    .form-right-decoration:before {
+        top: -20px;
+        right: 0;
+    }
+    .form-right-decoration:after {
+        top: 20px;
+        right: 10px;
+    }
+    .circle {
+        position: absolute;
+        bottom: 80px;
+        left: -55px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: white;
+    }
+    .form-inner {
+        padding: 50px;
+    }
+    .form-inner input, .form-inner textarea {
+        display: block;
+        width: 100%;
+        padding: 0 20px;
+        margin-bottom: 10px;
+        background: #E9EFF6;
+        line-height: 40px;
+        border-width: 0;
+        border-radius: 20px;
+        font-family: 'Roboto', sans-serif;
+    }
+    .form-inner input[type="submit"] {
+        margin-top: 30px;
+        background: #f69a73;
+        border-bottom: 4px solid #d87d56;
+        color: white;
+        font-size: 14px;
+    }
+    .form-inner textarea {
+        resize: none;
+    }
+    .form-inner h3 {
+        margin-top: 0;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        font-size: 24px;
+        color: #707981;
     }
 </style>
-<?php
-$conn = new mysqli("localhost", "root", "mysql", "news");
-if($conn->connect_error){
-    die("Ошибка: " . $conn->connect_error);
-}
-$sql = "SELECT * FROM newone";
-if($result = $conn->query($sql)){
-?> <div class="table-wrap">
-    <table class="table-1"><?
-        echo "<tr><th>id користувача</th><th>Імя</th><th>Текст</th></tr>";
-        foreach($result as $row){
-            echo "<tr>";
-            echo "<td>" . $row["title"] . "</td>";
-            echo "<td>" . $row["detailtext"] . "</td>";
-            echo "<td>" . $row["description"] . "</td>";
 
-            echo "<td><form action='send.php' method='post'>
-                        <input type='hidden' name='id' value='" . $row["id"] . "' />
-                        <input type='submit' value='Отправить'> 
-                </form></td>";
-            echo "<td><a href='update.php?id=" . $row["id"] . "'>Изменить</a></td>";
-            echo "<td><form action='delete.php' method='post'>
-                        <input type='hidden' name='id' value='" . $row["id"] . "' />
-                        <input type='submit' value='Удалить'> 
-                </form></td>";
-            echo "</tr>";
-        }
-        echo "</table></div>";
-        $result->free();
-        } else{
-            echo "Ошибка: " . $conn->error;
-        }
-        $conn->close();
-        ?>
-</body>
-</html>
