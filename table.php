@@ -1,33 +1,4 @@
 <?php
-
-/*
-$conn = new mysqli("localhost", "root", "mysql");
-if($conn->connect_error){
-    die("Ошибкка: " . $conn->connect_error);
-}
-// Создаем базу данных testdb2
-$sql = "CREATE DATABASE infodb";
-if($conn->query($sql)){
-    echo "База данных успешно создана";
-} else{
-    echo "Ошибка: " . $conn->error;
-}
-$conn->close();
-
-$conn = new mysqli("localhost", "root", "mysql", "infodb");
-if($conn->connect_error){
-    die("Ошибка: " . $conn->connect_error);
-}
-$sql = "CREATE TABLE infotable (id INTEGER AUTO_INCREMENT PRIMARY KEY, title VARCHAR(60), description TEXT, detailtext TEXT);";
-if($conn->query($sql)){
-    echo "Таблица новостей успешно создана";
-} else{
-    echo "Ошибка: " . $conn->error;
-}
-$conn->close();
-*/
-
-
 session_start();
 
 if (!isset($_SESSION['access']) || $_SESSION['access'] != true) {
